@@ -1,9 +1,10 @@
 version: "2"
 sql:
   - engine: "mysql"
-    schema: "schema/*.sql"  # Your schema file
-    queries: "queries/"
+    schema: "migrations/schema/*.sql"  # Your schema file
+    queries: "migrations/queries/"
     gen:
       go:
         package: "gen"
-        out: "../internal/repository/gen"
+        out: "internal/repository/gen"
+        emit_json_tags: true

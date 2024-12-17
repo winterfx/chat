@@ -1,0 +1,2 @@
+{"time":"2024-12-06T18:02:52.090589+08:00","level":"INFO","source":{"function":"chat/internal/pkg/clog.(*Clog).Info","file":"/Users/winter_wang/Project/chat/internal/pkg/clog/logger.go","line":57},"msg":"[api-server]this is info"}
+{"time":"2024-12-06T18:02:52.09107+08:00","level":"INFO","source":{"function":"chat/internal/pkg/clog.TestInfo","file":"/Users/winter_wang/Project/chat/internal/pkg/clog/logger_test.go","line":12},"msg":"this is info"}

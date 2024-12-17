@@ -1,0 +1,13 @@
+# Virtual Environment
+venv/
+.env
+
+# IDEs
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Binaries
+chat

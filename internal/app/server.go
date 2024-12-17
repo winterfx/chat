@@ -4,6 +4,9 @@ import (
 	"chat/internal/transport/rest"
 )
 
+type Server struct {
+}
+
 func Run() {
 	//1. init config
 	//2. init logger

@@ -1,11 +1,9 @@
 CREATE TABLE users (
-    id SERIAL PRIMARY KEY,
     user_id VARCHAR(255) UNIQUE NOT NULL,
-    username VARCHAR(255) NOT NULL,
-    email VARCHAR(255),
-    oauth_token TEXT,
-    refresh_token TEXT,
-    token_expiry TIMESTAMP,
+    email VARCHAR(255) NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    auth_provider VARCHAR(50) NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

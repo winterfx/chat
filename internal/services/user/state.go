@@ -1,4 +1,4 @@
-package state
+package user
 
 import (
 	"context"
@@ -11,12 +11,12 @@ type UserState struct {
 	cache *redis.Client
 }
 
-type UserStatus int
+type UserStatus string
 
 const expiredTime = 60 * time.Duration(time.Minute)
 const (
-	Offline UserStatus = -1
-	Online  UserStatus = 1
+	Offline UserStatus = "offline"
+	Online  UserStatus = "online"
 )
 
 func userStatusKey(userId string) string {
@@ -28,7 +28,7 @@ func (u UserStatus) IsOnline() bool {
 
 func (u *UserState) GetUserState(ctx context.Context, userId string) UserStatus {
 	k := userStatusKey(userId)
-	status, err := u.cache.Get(ctx, k).Int()
+	status, err := u.cache.Get(ctx, k).Result()
 	if err != nil {
 		return Offline
 	}
@@ -37,7 +37,7 @@ func (u *UserState) GetUserState(ctx context.Context, userId string) UserStatus 
 
 func (u *UserState) RefreshUserState(ctx context.Context, userId string, status UserStatus) error {
 	k := userStatusKey(userId)
-	return u.cache.Set(ctx, k, status, expiredTime).Err()
+	return u.cache.Set(ctx, k, string(status), expiredTime).Err()
 }
 func NewUserState(r *redis.Client) *UserState {
 	return &UserState{
