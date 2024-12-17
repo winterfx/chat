@@ -154,98 +154,127 @@ export default function Chat() {
   };
 
   return (
-      <div className="flex h-screen bg-background">
-        <SidebarProvider >
+      <div className="flex h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
+        <SidebarProvider>
           <SidebarTrigger />
-            <Sidebar collapsible="icon">
-              <SidebarHeader>ChatApp</SidebarHeader>
-              <SidebarContent >
+            <Sidebar collapsible="icon" className="border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+              <SidebarHeader className="p-4 text-2xl font-bold bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">ChatApp</SidebarHeader>
+              <SidebarContent className="px-2">
                   {friends.map((friend) => (
                       <button
                           key={friend.uid}
-                          className={`flex items-center w-full p-4 hover:bg-primary-foreground/10 transition-colors ${
-                              selectedFriend?.uid === friend.uid ? 'bg-primary-foreground/20' : ''
+                          className={`flex items-center w-full p-3 my-1 rounded-lg transition-all duration-200 hover:bg-gray-100 dark:hover:bg-gray-700 ${
+                              selectedFriend?.uid === friend.uid ? 'bg-primary/10 dark:bg-primary/20' : ''
                           }`}
                           onClick={() => setSelectedFriend(friend)}
                       >
-                          <div className="relative mr-2">
-                              <User className="h-5 w-5" />
-                              <span className={`absolute bottom-0 right-0 block h-2 w-2 rounded-full ring-2 ring-primary ${friend.status === "online" ? 'bg-green-400' : 'bg-gray-400'}`} />
+                          <div className="relative mr-3">
+                              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary/20 to-purple-500/20 flex items-center justify-center">
+                                  <User className="h-5 w-5 text-primary" />
+                              </div>
+                              <span className={`absolute bottom-0 right-0 block h-3 w-3 rounded-full ring-2 ring-white dark:ring-gray-800 ${friend.status === "online" ? 'bg-green-400' : 'bg-gray-400'}`} />
                           </div>
-                          <span className="flex-grow text-left">{friend.name}</span>
+                          <div className="flex flex-col items-start">
+                              <span className="font-medium text-gray-800 dark:text-gray-100">{friend.name}</span>
+                              <span className="text-xs text-gray-600 dark:text-gray-300">{friend.status}</span>
+                          </div>
                       </button>
                   ))}
               </SidebarContent>
-              <SidebarFooter>
-              {/* <span className="mr-2">{userName}</span><Button onClick={handleLogout}>Log out</Button> */}
+              <SidebarFooter className="border-t border-gray-200 dark:border-gray-700 p-4">
                   <SidebarMenu>
                     <SidebarMenuItem>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <SidebarMenuButton>
-                            <User /> {userName}
-                            <ChevronUp className="ml-auto" />
+                          <SidebarMenuButton className="w-full flex items-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                            <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center mr-2">
+                              <User className="h-4 w-4 text-primary" />
+                            </div>
+                            <span className="font-medium text-gray-800 dark:text-gray-100">{userName}</span>
+                            <ChevronUp className="ml-auto h-4 w-4 text-gray-600 dark:text-gray-300" />
                           </SidebarMenuButton>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuItem onClick={handleLogout}>
+                        <DropdownMenuContent align="end" className="w-56">
+                          <DropdownMenuItem onClick={handleLogout} className="text-red-600 dark:text-red-400">
                             <LogOut className="mr-2 h-4 w-4" />
                             <span>Log out</span>
-                          </DropdownMenuItem>
-                          <DropdownMenuItem onClick={handleLogout}>
-                            <Trash2 className="mr-2 h-4 w-4" />
-                            <span>Delete account</span>
                           </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </SidebarMenuItem>
-                </SidebarMenu>
+                  </SidebarMenu>
               </SidebarFooter>
             </Sidebar>
-            <div className="flex-1 flex flex-col bg-secondary">
+            <div className="flex-1 flex flex-col bg-white dark:bg-gray-900">
               {selectedFriend ? (
                   <>
-                      <div className="bg-secondary-foreground text-secondary p-4 border-b border-secondary-foreground/10 flex items-center">
-                          <h2 className="text-xl font-semibold flex-grow">{selectedFriend.name}</h2>
-                          <span className={`text-sm ${selectedFriend.status === "online" ? 'text-green-400' : 'text-secondary/60'}`}>
-                              {selectedFriend.status === "online" ? 'online' : 'offline'}
-                          </span>
-                      </div>
-                      <ScrollArea className="flex-1 p-4">
-                          {messages[selectedFriend.uid]?.map((msg) => (
-                              <div key={msg.messageId} className={`mb-2 ${msg.senderId === userId ? 'text-right' : 'text-left'}`}>
-                                  <p className={`text-secondary-foreground/70 ${msg.senderId === userId ? 'font-bold' : ''}`}>
-                                      {msg.data}
-                                  </p>
+                      <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md flex items-center">
+                          <div className="flex items-center">
+                              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary/20 to-purple-500/20 flex items-center justify-center mr-3">
+                                  <User className="h-5 w-5 text-primary" />
                               </div>
-                          )) || (
-                              <p className="text-secondary-foreground/70 text-center mt-4">
-                                  还没有与 {selectedFriend.name} 的消息。
-                              </p>
-                          )}
+                              <div>
+                                  <h2 className="text-lg font-semibold text-gray-700 dark:text-gray-200">{selectedFriend.name}</h2>
+                                  <span className={`text-sm ${selectedFriend.status === "online" ? 'text-green-500' : 'text-gray-500'}`}>
+                                      {selectedFriend.status}
+                                  </span>
+                              </div>
+                          </div>
+                      </div>
+                      <ScrollArea className="flex-1 p-6">
+                          <div className="space-y-4">
+                              {messages[selectedFriend.uid]?.map((msg) => (
+                                  <div key={msg.messageId} 
+                                       className={`flex ${msg.senderId === userId ? 'justify-end' : 'justify-start'}`}>
+                                      <div className={`max-w-[70%] rounded-2xl px-4 py-2 ${
+                                          msg.senderId === userId 
+                                          ? 'bg-primary text-white' 
+                                          : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200'
+                                      }`}>
+                                          <p className="text-sm">{msg.data}</p>
+                                          <span className="text-xs opacity-70 mt-1 block">
+                                              {new Date(msg.timeStamp).toLocaleTimeString()}
+                                          </span>
+                                      </div>
+                                  </div>
+                              )) || (
+                                  <div className="flex items-center justify-center h-full">
+                                      <div className="text-center text-gray-500 dark:text-gray-400">
+                                          <MessageSquare className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                                          <p>No messages yet with {selectedFriend.name}</p>
+                                          <p className="text-sm mt-2">Send a message to start the conversation</p>
+                                      </div>
+                                  </div>
+                              )}
+                          </div>
                       </ScrollArea>
-                      <form onSubmit={handleSendMessage} className="p-4 bg-secondary-foreground border-t border-secondary-foreground/10 flex">
-                          <Input
-                              type="text"
-                              placeholder="Type a message..."
-                              value={message}
-                              onChange={(e) => setMessage(e.target.value)}
-                              className="flex-1 mr-2 bg-secondary text-secondary-foreground"
-                          />
-                          <Button type="submit" variant="secondary">
-                              <Send className="h-4 w-4 mr-2" />
-                              Send
-                          </Button>
+                      <form onSubmit={handleSendMessage} 
+                            className="p-4 border-t border-gray-200 dark:border-gray-700 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md">
+                          <div className="flex items-center space-x-2">
+                              <Input
+                                  type="text"
+                                  placeholder="Type your message..."
+                                  value={message}
+                                  onChange={(e) => setMessage(e.target.value)}
+                                  className="flex-1 bg-gray-100 dark:bg-gray-800 border-0 focus-visible:ring-1 focus-visible:ring-primary"
+                              />
+                              <Button 
+                                  type="submit" 
+                                  className="bg-primary hover:bg-primary/90 text-white"
+                                  disabled={!message.trim()}>
+                                  <Send className="h-4 w-4" />
+                              </Button>
+                          </div>
                       </form>
                   </>
               ) : (
-                  <div className="flex-1 flex flex-col items-center justify-center bg-secondary p-8 text-center">
-                      <div className="bg-secondary-foreground rounded-full p-8 mb-6">
-                          <MessageSquare className="h-16 w-16 text-secondary" />
+                  <div className="flex-1 flex flex-col items-center justify-center p-8">
+                      <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mb-6">
+                          <MessageSquare className="h-10 w-10 text-primary" />
                       </div>
-                      <h2 className="text-3xl font-bold text-secondary-foreground mb-4">Welcome to ChatApp</h2>
-                      <p className="text-secondary-foreground/70 max-w-md">
-                          Select a friend from the list to start a conversation. Connect, chat, and stay in touch with your friends!
+                      <h2 className="text-2xl font-bold text-gray-700 dark:text-gray-200 mb-2">Welcome to ChatApp</h2>
+                      <p className="text-gray-500 dark:text-gray-400 text-center max-w-md">
+                          Select a conversation from the sidebar to start chatting
                       </p>
                   </div>
               )}
